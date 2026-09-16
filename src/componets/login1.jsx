@@ -7,11 +7,24 @@ import "./login.css"
 function Login() {
     const navigate = useNavigate()
     const location = useLocation()
-    const [message] = useState(new URLSearchParams(location.search).get("error") ? "Sign in was not completed. Please try again." : "")
+    const [message, setMessage] = useState(new URLSearchParams(location.search).get("error") ? "Sign in was not completed. Please try again." : "")
+    const [loadingProvider, setLoadingProvider] = useState("")
     const apiUrl = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/$/, "")
 
-    const startSignIn = (provider) => {
-        window.location.assign(`${apiUrl}/api/auth/${provider}`)
+    const startSignIn = async (provider) => {
+        setLoadingProvider(provider)
+        setMessage("")
+
+        try {
+            const response = await fetch(`${apiUrl}/api/auth/providers`)
+            if (!response.ok) throw new Error("Authentication server unavailable")
+            const providers = await response.json()
+            if (!providers[provider]) throw new Error(`${provider} sign in is not configured on the backend`)
+            window.location.assign(`${apiUrl}/api/auth/${provider}`)
+        } catch (error) {
+            setLoadingProvider("")
+            setMessage(error.message || "Unable to start sign in. Start the backend and try again.")
+        }
     }
 
     return (
@@ -45,17 +58,17 @@ function Login() {
                     </div>
 
                     <div className="social-options">
-                        <button className="social-button social-google" type="button" onClick={() => startSignIn("google")}>
+                        <button className="social-button social-google" type="button" onClick={() => startSignIn("google")} disabled={Boolean(loadingProvider)}>
                             <span className="social-icon">G</span>
-                            Continue with Google
+                            {loadingProvider === "google" ? "Connecting..." : "Continue with Google"}
                         </button>
                         <div className="divider"><span>or continue with</span></div>
                         <div className="secondary-options">
-                            <button className="social-button compact" type="button" onClick={() => startSignIn("facebook")}>
-                                <span className="social-icon">f</span> Facebook
+                            <button className="social-button compact" type="button" onClick={() => startSignIn("facebook")} disabled={Boolean(loadingProvider)}>
+                                <span className="social-icon">f</span> {loadingProvider === "facebook" ? "Connecting..." : "Facebook"}
                             </button>
-                            <button className="social-button compact" type="button" onClick={() => startSignIn("twitter")}>
-                                <span className="social-icon">&#120143;</span> X
+                            <button className="social-button compact" type="button" onClick={() => startSignIn("twitter")} disabled={Boolean(loadingProvider)}>
+                                <span className="social-icon">&#120143;</span> {loadingProvider === "twitter" ? "Connecting..." : "X"}
                             </button>
                         </div>
                     </div>
