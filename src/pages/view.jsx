@@ -7,6 +7,7 @@ import Head from "../componets/Head"
 import Footer from "../componets/footer"
 import houseImage from "../assets/PEBC1100 (2).PNG"
 import interiorImage from "../assets/dup2.PNG"
+import { getSavedHomes, removeSavedHome, saveHome } from "../info/savedHomes"
 import "../componets/viewmore.css"
 
 const discoveryProperties = [
@@ -40,6 +41,17 @@ const discoveryProperties = [
 	}
 ]
 
+const featuredHome = {
+	id: "featured-residence",
+	title: "Room to breathe.",
+	location: "Lekki Phase 1, Lagos",
+	price: "₦85,000,000",
+	image: "/PEBC1100 (2).PNG",
+	type: "Detached home",
+	beds: 3,
+	baths: 2
+}
+
 function QuantityControl({ label, value, setValue, minimum = 0 }) {
 	return (
 		<div className="quantity-control">
@@ -57,7 +69,13 @@ function View() {
 	const [bedrooms, setBedrooms] = useState(3)
 	const [bathrooms, setBathrooms] = useState(2)
 	const [parking, setParking] = useState(1)
-	const [saved, setSaved] = useState(false)
+	const [saved, setSaved] = useState(() => getSavedHomes().some((home) => home.id === featuredHome.id))
+
+	const toggleSaved = () => {
+		if (saved) removeSavedHome(featuredHome)
+		else saveHome(featuredHome)
+		setSaved(!saved)
+	}
 
 	return (
 		<div className="viewmore-page">
@@ -70,7 +88,7 @@ function View() {
 						<div className="gallery-label"><span>01</span><i /><span>Featured residence</span></div>
 					</div>
 					<div className="featured-copy">
-												<div className="featured-heading"><div><p className="viewmore-kicker">The house on the hill</p><h1>Room to breathe.</h1></div><button className={`save-button${saved ? " is-saved" : ""}`} type="button" onClick={() => setSaved(!saved)} aria-label={saved ? "Remove from saved homes" : "Save home"}>{saved ? <FavoriteIcon aria-hidden="true" /> : <FavoriteBorderIcon aria-hidden="true" />}</button></div>
+																	<div className="featured-heading"><div><p className="viewmore-kicker">The house on the hill</p><h1>Room to breathe.</h1></div><button className={`save-button${saved ? " is-saved" : ""}`} type="button" onClick={toggleSaved} aria-label={saved ? "Remove from saved homes" : "Save home"}>{saved ? <FavoriteIcon aria-hidden="true" /> : <FavoriteBorderIcon aria-hidden="true" />}</button></div>
 						<p className="featured-location">Lekki Phase 1, Lagos &nbsp; / &nbsp; For sale</p>
 						<p className="featured-description">An easy, light-filled home designed around the way life actually happens. Soft morning light moves across the open living room, while three quiet bedrooms give everyone a corner to call their own.</p>
 						<div className="featured-price"><strong>₦85,000,000</strong><span>Freehold</span></div>

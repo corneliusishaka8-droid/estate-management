@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
@@ -5,11 +6,19 @@ import FavoriteIcon from "@mui/icons-material/Favorite"
 import Head from "../componets/Head"
 import Footer from "../componets/footer"
 import avatar from "../assets/KGJS0041.PNG"
+import { getSavedHomes, removeSavedHome } from "../info/savedHomes"
 import "../componets/profile.css"
 
 function Profile({ user }) {
     const profileName = user?.name || "Coco's Home member"
     const profileEmail = user?.email || "Email not provided by provider"
+    const [savedHomes, setSavedHomes] = useState(() => getSavedHomes())
+
+    const savedHome = savedHomes[0]
+
+    const removeHome = (homeId) => {
+        setSavedHomes(removeSavedHome(homeId))
+    }
 
     return (
         <div className="profile-page">
@@ -44,7 +53,7 @@ function Profile({ user }) {
 
                     <div className="profile-content">
                         <div className="profile-stats">
-                            <div><strong>12</strong><span>Saved homes</span></div>
+                            <div><strong>{savedHomes.length}</strong><span>Saved homes</span></div>
                             <div><strong>03</strong><span>Viewings booked</span></div>
                             <div><strong>02</strong><span>Active searches</span></div>
                         </div>
@@ -54,14 +63,14 @@ function Profile({ user }) {
                                 <div><p className="profile-eyebrow">Your shortlist</p><h2>Saved homes</h2></div>
                                 <Link to="/prop">Explore all <ArrowForwardIcon className="action-icon" aria-hidden="true" /></Link>
                             </div>
-                            <div className="saved-home">
-                                <div className="saved-home-image" role="img" aria-label="Bright modern home interior" />
+                            {savedHome ? <div className="saved-home">
+                                <div className="saved-home-image" role="img" aria-label={savedHome.title} style={{ backgroundImage: `url("${savedHome.image}")` }} />
                                 <div className="saved-home-info">
-                                    <div className="saved-home-title"><div><p className="profile-eyebrow">Featured residence</p><h3>Sunlit three-bedroom home</h3></div><button className="heart-button" type="button" aria-label="Remove saved home"><FavoriteIcon aria-hidden="true" /></button></div>
-                                    <p>Victoria Island, Lagos</p>
-                                    <div className="saved-home-meta"><strong>&#8358; 8,500,000 <small>/ year</small></strong><span>3 beds &nbsp; | &nbsp; 2 baths</span></div>
+                                    <div className="saved-home-title"><div><p className="profile-eyebrow">Saved residence</p><h3>{savedHome.title}</h3></div><button className="heart-button" type="button" onClick={() => removeHome(savedHome.id)} aria-label="Remove saved home"><FavoriteIcon aria-hidden="true" /></button></div>
+                                    <p>{savedHome.location}</p>
+                                    <div className="saved-home-meta"><strong>{savedHome.price}</strong><span>{savedHome.beds} beds &nbsp; | &nbsp; {savedHome.baths} baths</span></div>
                                 </div>
-                            </div>
+                            </div> : <p className="saved-home-empty">Save a home from its detail page and it will appear here.</p>}
                         </section>
 
                         <section className="profile-section preferences-section">
