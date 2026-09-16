@@ -60,6 +60,7 @@ const createUser = (provider, profile) => ({
     provider,
     name: profile.displayName || profile.username || "Coco's Home member",
     email: profile.emails?.[0]?.value || null,
+    phone: profile.phone_numbers?.[0]?.value || profile._json?.phone_number || profile._json?.phone || null,
     photo: profile.photos?.[0]?.value || null
 })
 
@@ -119,7 +120,7 @@ function startOAuth(provider, options) {
 
 // Keep the API prefix consistent with the frontend and retain the short legacy paths.
 app.get(["/api/auth/facebook", "/auth/facebook"], startOAuth("facebook", { scope: ["email"] }))
-app.get(["/api/auth/google", "/auth/google"], startOAuth("google", { scope: ["profile", "email"] }))
+app.get(["/api/auth/google", "/auth/google"], startOAuth("google", { scope: ["profile", "email", "https://www.googleapis.com/auth/user.phonenumbers.read"] }))
 app.get(["/api/auth/twitter", "/auth/twitter"], startOAuth("twitter"))
 
 app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRedirect: redirectToLogin("facebook") }), (request, response) => response.redirect(`${frontendUrl}/profile`))

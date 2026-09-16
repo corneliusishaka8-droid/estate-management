@@ -12,9 +12,8 @@ import "../componets/profile.css"
 function Profile({ user }) {
     const profileName = user?.name || "Coco's Home member"
     const profileEmail = user?.email || "Email not provided by provider"
+    const profilePhone = user?.phone || "Phone not provided by provider"
     const [savedHomes, setSavedHomes] = useState(() => getSavedHomes())
-
-    const savedHome = savedHomes[0]
 
     const removeHome = (homeId) => {
         setSavedHomes(removeSavedHome(homeId))
@@ -46,7 +45,7 @@ function Profile({ user }) {
                         <div className="account-rule" />
                         <div className="account-details">
                             <div><span>Email</span><strong>{profileEmail}</strong></div>
-                            <div><span>Phone</span><strong>+234 801 305 6233</strong></div>
+                            <div><span>Phone</span><strong>{profilePhone}</strong></div>
                         </div>
                         <button className="outline-button" type="button"><EditOutlinedIcon className="action-icon" aria-hidden="true" /> Edit profile <ArrowForwardIcon className="action-icon" aria-hidden="true" /></button>
                     </aside>
@@ -63,14 +62,14 @@ function Profile({ user }) {
                                 <div><p className="profile-eyebrow">Your shortlist</p><h2>Saved homes</h2></div>
                                 <Link to="/prop">Explore all <ArrowForwardIcon className="action-icon" aria-hidden="true" /></Link>
                             </div>
-                            {savedHome ? <div className="saved-home">
+                            {savedHomes.length ? savedHomes.map((savedHome) => <div className="saved-home" key={savedHome.id}>
                                 <div className="saved-home-image" role="img" aria-label={savedHome.title} style={{ backgroundImage: `url("${savedHome.image}")` }} />
                                 <div className="saved-home-info">
                                     <div className="saved-home-title"><div><p className="profile-eyebrow">Saved residence</p><h3>{savedHome.title}</h3></div><button className="heart-button" type="button" onClick={() => removeHome(savedHome.id)} aria-label="Remove saved home"><FavoriteIcon aria-hidden="true" /></button></div>
                                     <p>{savedHome.location}</p>
                                     <div className="saved-home-meta"><strong>{savedHome.price}</strong><span>{savedHome.beds} beds &nbsp; | &nbsp; {savedHome.baths} baths</span></div>
                                 </div>
-                            </div> : <p className="saved-home-empty">Save a home from its detail page and it will appear here.</p>}
+                            </div>) : <p className="saved-home-empty">Save a home from its detail page and it will appear here.</p>}
                         </section>
 
                         <section className="profile-section preferences-section">

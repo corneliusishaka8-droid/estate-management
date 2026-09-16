@@ -1,8 +1,12 @@
+import { useState } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
+import FavoriteIcon from "@mui/icons-material/Favorite"
 import Head from "../componets/Head"
 import Footer from "../componets/footer"
 import properties from "../info/properties"
+import { getSavedHomes, removeSavedHome, saveHome } from "../info/savedHomes"
 import "../componets/search.css"
 
 function matchesProperty(property, query) {
@@ -21,8 +25,14 @@ function matchesProperty(property, query) {
 
 function Search() {
     const [searchParams] = useSearchParams()
+    const [savedHomes, setSavedHomes] = useState(() => getSavedHomes())
     const query = searchParams.get("q") || ""
     const results = properties.filter((property) => matchesProperty(property, query))
+
+    const toggleSaved = (property) => {
+        const isSaved = savedHomes.some((savedHome) => savedHome.id === property.id)
+        setSavedHomes(isSaved ? removeSavedHome(property.id) : saveHome({ ...property, beds: 3, baths: 2 }))
+    }
 
     return (
         <div className="search-page">
@@ -39,7 +49,10 @@ function Search() {
                     <section className="search-empty"><span>00</span><h2>Let&apos;s try a different direction.</h2><p>We could not find a match for “{query}”. Try searching for Lagos, duplex, bungalow, office, or land.</p><Link to="/prop">Search again <ArrowForwardIcon className="action-icon" aria-hidden="true" /></Link></section>
                 ) : (
                     <section className="search-results" aria-label="Property search results">
-                        {results.map((property) => <article className="result-card" key={property.id}><div className="result-image"><img src={property.image} alt={property.title} loading="lazy" /><span>{property.type}</span></div><div className="result-copy"><div><p className="result-location">{property.location}</p><h2>{property.title}</h2><p>{property.description}</p></div><div className="result-footer"><strong>{property.price}</strong><Link to="/view" aria-label={`View ${property.title}`}>View home <ArrowForwardIcon className="action-icon" aria-hidden="true" /></Link></div></div></article>)}
+                        {results.map((property) => {
+                            const isSaved = savedHomes.some((savedHome) => savedHome.id === property.id)
+                            return <article className="result-card" key={property.id}><div className="result-image"><img src={property.image} alt={property.title} loading="lazy" /><span>{property.type}</span><button className={`result-save-button${isSaved ? " is-saved" : ""}`} type="button" onClick={() => toggleSaved(property)} aria-label={isSaved ? `Remove ${property.title} from saved homes` : `Save ${property.title}`} title={isSaved ? "Remove saved home" : "Save home"}>{isSaved ? <FavoriteIcon aria-hidden="true" /> : <FavoriteBorderIcon aria-hidden="true" />}</button></div><div className="result-copy"><div><p className="result-location">{property.location}</p><h2>{property.title}</h2><p>{property.description}</p></div><div className="result-footer"><strong>{property.price}</strong><Link to="/view" aria-label={`View ${property.title}`}>View home <ArrowForwardIcon className="action-icon" aria-hidden="true" /></Link></div></div></article>
+                        })}
                     </section>
                 )}
             </main>
