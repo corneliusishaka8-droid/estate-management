@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
 import FavoriteIcon from "@mui/icons-material/Favorite"
@@ -10,6 +10,7 @@ import { getSavedHomes, removeSavedHome } from "../info/savedHomes"
 import "../componets/profile.css"
 
 function Profile({ user }) {
+    const navigate = useNavigate()
     const profileName = user?.name || "Coco's Home member"
     const profileEmail = user?.email || "Email not provided by provider"
     const profilePhone = user?.phone || "Phone not provided by provider"
@@ -17,6 +18,17 @@ function Profile({ user }) {
 
     const removeHome = (homeId) => {
         setSavedHomes(removeSavedHome(homeId))
+    }
+
+    const logout = async () => {
+        try {
+            await fetch(`${(import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/$/, "")}/api/auth/logout`, {
+                method: "POST",
+                credentials: "include"
+            })
+        } finally {
+            navigate("/login", { replace: true })
+        }
     }
 
     return (
@@ -37,7 +49,7 @@ function Profile({ user }) {
                         <div className="account-heading">
                             <img src={user?.photo || avatar} alt={profileName} className="account-avatar" />
                             <div>
-                                <p className="profile-eyebrow">Authenticated member</p>
+                                <p className="profile-eyebrow">Authenticatif ed member</p>
                                 <h2>{profileName}</h2>
                                 <p>{user?.provider || "Coco's Home"}</p>
                             </div>
@@ -48,6 +60,7 @@ function Profile({ user }) {
                             <div><span>Phone</span><strong>{profilePhone}</strong></div>
                         </div>
                         <button className="outline-button" type="button"><EditOutlinedIcon className="action-icon" aria-hidden="true" /> Edit profile <ArrowForwardIcon className="action-icon" aria-hidden="true" /></button>
+                        <button className="logout-button" type="button" onClick={logout}>Log out</button>
                     </aside>
 
                     <div className="profile-content">

@@ -51,6 +51,7 @@
 .compact { min-height: 50px; font-size: 0.82rem; }
 .login-message { min-height: 20px; margin: 22px 0 0; color: var(--coral); font-size: 0.8rem; opacity: 0; text-align: center; transition: opacity 180ms ease; }
 .login-message.is-visible { opacity: 1; }
+.login-message.is-visible { min-height: 34px; }
 .consent-copy { margin-top: 32px; color: var(--muted); font-size: 0.74rem; line-height: 1.7; text-align: center; }
 .consent-copy a, .login-help a { color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 .login-help { margin-top: 36px; color: var(--muted); font-size: 0.8rem; }

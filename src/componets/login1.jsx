@@ -12,6 +12,11 @@ function Login() {
     const apiUrl = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/$/, "")
 
     const startSignIn = (provider) => {
+        if (provider !== "google") {
+            setMessage(`${provider === "twitter" ? "X" : "Facebook"} sign in is coming soon.`)
+            return
+        }
+
         setLoadingProvider(provider)
         setMessage("")
 

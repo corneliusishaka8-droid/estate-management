@@ -19,6 +19,7 @@
 .account-details div { display: grid; gap: 5px; }
 .account-details strong { font-size: 0.8rem; font-weight: 500; }
 .outline-button { width: 100%; margin-top: 30px; padding: 13px 14px; border: 1px solid var(--profile-ink); background: transparent; color: var(--profile-ink); cursor: pointer; font: inherit; font-size: 0.77rem; text-align: left; }
+.logout-button { width: 100%; margin-top: 10px; padding: 10px 14px; border: 0; background: transparent; color: var(--profile-coral); cursor: pointer; font: inherit; font-size: 0.75rem; text-align: left; }
 .outline-button span, .section-heading a span, .text-button span { float: right; color: var(--profile-coral); font-size: 1rem; }
 .profile-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding-bottom: 45px; border-bottom: 1px solid var(--profile-line); }
 .profile-stats div { display: grid; gap: 8px; }
