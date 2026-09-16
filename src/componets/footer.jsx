@@ -7,8 +7,8 @@ function Footer(){
                <div className="second">
                  <h1>Find your <span className="dealll">ideal space</span></h1>
                 <p>Continue to explore or reach out to us for any personal assistance</p>
-                <div className="BTN-DIV"> <button className="btn2">avaliable propertics <ArrowForwardIcon className="action-icon" aria-hidden="true" /></button>
-                    <button className="btn3">contact us <ArrowForwardIcon className="action-icon" aria-hidden="true" /></button></div>
+                <div className="BTN-DIV"> <a href="/prop"><button className="btn2">avaliable propertics <ArrowForwardIcon className="action-icon" aria-hidden="true" /></button>
+</a>                  <button className="btn3">contact us <ArrowForwardIcon className="action-icon" aria-hidden="true" /></button></div>
                </div>
                <div className="holder">
                 <h2>Coco's home</h2>

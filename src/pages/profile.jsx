@@ -11,9 +11,9 @@ import "../componets/profile.css"
 
 function Profile({ user }) {
     const navigate = useNavigate()
-    const profileName = user?.name || "Coco's Home member"
-    const profileEmail = user?.email || "Email not provided by provider"
-    const profilePhone = user?.phone || "Phone not provided by provider"
+    const profileName = user?.name || ""
+    const profileEmail = user?.email || ""
+    const profilePhone = user?.phone || ""
     const [savedHomes, setSavedHomes] = useState(() => getSavedHomes())
 
     const removeHome = (homeId) => {
@@ -49,9 +49,9 @@ function Profile({ user }) {
                         <div className="account-heading">
                             <img src={user?.photo || avatar} alt={profileName} className="account-avatar" />
                             <div>
-                                <p className="profile-eyebrow">Authenticatif ed member</p>
+                                <p className="profile-eyebrow">Authenticated member</p>
                                 <h2>{profileName}</h2>
-                                <p>{user?.provider || "Coco's Home"}</p>
+                                <p>{user?.provider || ""}</p>
                             </div>
                         </div>
                         <div className="account-rule" />
