@@ -1,0 +1,23 @@
+{
+  "name": "estate-web",
+  "version": "1.0.0",
+  "description": "web application for a real estate company",
+  "homepage": "https://github.com/corneliusishaka8-droid/estate-management#readme",
+  "bugs": {
+    "url": "https://github.com/corneliusishaka8-droid/estate-management/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/corneliusishaka8-droid/estate-management.git"
+  },
+  "license": "ISC",
+  "author": "ishake cornelius",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

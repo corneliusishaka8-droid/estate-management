@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap');
+
+.about-page { --about-ink: #17252a; --about-muted: #718084; --about-paper: #f8f6f0; --about-line: #dfe5e1; --about-coral: #e9765f; background: var(--about-paper); color: var(--about-ink); font-family: 'DM Sans', sans-serif; }
+.about-page main { overflow: hidden; }
+.about-page img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.about-kicker { margin: 0 0 16px; color: var(--about-coral); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+.about-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 0.84fr); gap: clamp(40px, 9vw, 150px); align-items: center; max-width: 1380px; min-height: 760px; margin: 0 auto; padding: 150px clamp(24px, 8vw, 120px) 90px; }
+.about-hero-copy h1 { max-width: 8ch; margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(4rem, 7.8vw, 8.2rem); font-weight: 500; line-height: 0.9; }
+.about-hero-copy h1 em, .about-statement h2 em, .about-values h2 em, .about-cta h2 em { color: var(--about-coral); font-style: italic; }
+.about-hero-text { max-width: 38ch; margin: 32px 0; color: var(--about-muted); font-size: 1rem; line-height: 1.75; }
+.about-primary-link, .about-text-link, .about-light-link { display: inline-flex; align-items: center; gap: 14px; color: var(--about-ink); font-size: 0.8rem; font-weight: 700; text-decoration: none; }
+.about-primary-link span, .about-text-link span, .about-light-link span { color: var(--about-coral); font-size: 1.2rem; }
+.about-hero-art { position: relative; min-height: 520px; }
+.about-hero-image { position: absolute; inset: 0 25px 30px 0; overflow: hidden; }
+.about-hero-image::after { position: absolute; inset: 0; content: ''; background: linear-gradient(145deg, rgba(23, 37, 42, 0.02), rgba(23, 37, 42, 0.3)); }
+.about-stamp { position: absolute; right: 0; bottom: 0; display: grid; place-items: center; width: 116px; height: 116px; border-radius: 50%; background: var(--about-coral); color: #fffaf2; font-size: 0.7rem; letter-spacing: 0.08em; line-height: 1.4; text-align: center; text-transform: uppercase; transform: rotate(10deg); }
+.about-stamp strong { font-family: 'Playfair Display', Georgia, serif; font-size: 1.5rem; font-weight: 500; letter-spacing: 0; }
+.about-image-note { position: absolute; right: -5px; top: 24px; color: var(--about-muted); font-size: 0.7rem; line-height: 1.5; text-align: right; text-transform: uppercase; }
+.about-statement { padding: 120px clamp(24px, 12vw, 180px); background: #fff; }
+.about-statement-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(40px, 10vw, 170px); align-items: start; }
+.about-statement h2, .about-proof h2, .about-values h2, .about-team h2 { margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2.4rem, 4.2vw, 4.7rem); font-weight: 500; line-height: 0.98; }
+.about-statement-grid div { padding-top: 7px; }
+.about-statement-grid p, .about-team-copy > p:last-of-type { margin: 0 0 22px; color: var(--about-muted); font-size: 0.95rem; line-height: 1.8; }
+.about-proof { display: grid; grid-template-columns: 0.9fr 1.1fr; align-items: stretch; min-height: 620px; background: #e7ece7; }
+.about-proof-image { min-height: 450px; }
+.about-proof-content { display: flex; flex-direction: column; justify-content: center; padding: 80px clamp(28px, 8vw, 130px); }
+.about-proof-content h2 { max-width: 10ch; }
+.about-stat-row { display: flex; gap: clamp(25px, 5vw, 70px); margin-top: 72px; }
+.about-stat-row div { display: grid; gap: 9px; }
+.about-stat-row strong { font-family: 'Playfair Display', Georgia, serif; font-size: 2.5rem; font-weight: 500; }
+.about-stat-row span { color: var(--about-muted); font-size: 0.72rem; }
+.about-values { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(50px, 12vw, 200px); padding: 130px clamp(24px, 12vw, 180px); }
+.about-values h2 { font-size: clamp(3rem, 5vw, 5.5rem); }
+.about-values-list article { display: grid; grid-template-columns: 52px 1fr; gap: 20px; padding: 23px 0; border-top: 1px solid var(--about-line); }
+.about-values-list article:last-child { border-bottom: 1px solid var(--about-line); }
+.about-values-list article > span { color: var(--about-coral); font-size: 0.75rem; font-weight: 700; }
+.about-values-list h3 { margin: 0 0 10px; font-family: 'Playfair Display', Georgia, serif; font-size: 1.45rem; font-weight: 500; }
+.about-values-list p { max-width: 42ch; margin: 0; color: var(--about-muted); font-size: 0.84rem; line-height: 1.7; }
+.about-team { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; padding: 110px clamp(24px, 12vw, 180px); background: #fff; }
+.about-team-copy h2 { max-width: 9ch; margin-bottom: 30px; }
+.about-team-copy > p:last-of-type { max-width: 38ch; }
+.about-text-link { margin-top: 15px; }
+.about-team-card { max-width: 350px; justify-self: end; }
+.about-team-card img { height: 390px; filter: saturate(0.72); }
+.about-team-card div { display: flex; justify-content: space-between; gap: 10px; padding-top: 14px; }
+.about-team-card p { margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 1.2rem; }
+.about-team-card span { color: var(--about-muted); font-size: 0.75rem; }
+.about-cta { padding: 130px 24px; background: var(--about-ink); color: #fffaf2; text-align: center; }
+.about-cta h2 { margin: 0 auto 38px; font-size: clamp(3.2rem, 7vw, 7rem); }
+.about-light-link { color: #fffaf2; }
+
+@media (max-width: 780px) { .about-hero { display: block; min-height: 0; padding-top: 130px; } .about-hero-copy h1 { font-size: clamp(3.8rem, 16vw, 6rem); } .about-hero-art { min-height: 430px; margin-top: 60px; } .about-statement-grid, .about-proof, .about-values, .about-team { grid-template-columns: 1fr; } .about-statement, .about-values { padding-block: 85px; } .about-proof-image { min-height: 360px; } .about-proof-content { padding-block: 75px; } .about-values-list { margin-top: 20px; } .about-team-card { justify-self: start; } }
+@media (max-width: 480px) { .about-hero { padding-inline: 20px; } .about-hero-art { min-height: 340px; } .about-stamp { width: 92px; height: 92px; font-size: 0.58rem; } .about-statement, .about-values, .about-team { padding-inline: 20px; } .about-stat-row { gap: 18px; margin-top: 50px; } .about-stat-row strong { font-size: 2rem; } .about-stat-row span { font-size: 0.65rem; } .about-team-card img { height: 330px; } }
+@media (min-width: 781px) and (max-width: 1100px) { .about-hero { min-height: 650px; gap: 45px; padding-inline: 48px; } .about-statement, .about-values, .about-team { padding-inline: 48px; } .about-values { gap: 60px; } }
