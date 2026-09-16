@@ -11,20 +11,12 @@ function Login() {
     const [loadingProvider, setLoadingProvider] = useState("")
     const apiUrl = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/$/, "")
 
-    const startSignIn = async (provider) => {
+    const startSignIn = (provider) => {
         setLoadingProvider(provider)
         setMessage("")
 
-        try {
-            const response = await fetch(`${apiUrl}/api/auth/providers`)
-            if (!response.ok) throw new Error("Authentication server unavailable")
-            const providers = await response.json()
-            if (!providers[provider]) throw new Error(`${provider} sign in is not configured on the backend`)
-            window.location.assign(`${apiUrl}/api/auth/${provider}`)
-        } catch (error) {
-            setLoadingProvider("")
-            setMessage(error.message || "Unable to start sign in. Start the backend and try again.")
-        }
+        // Passport owns the OAuth redirect and sends the user to the provider login page.
+        window.location.assign(`${apiUrl}/api/auth/${provider}`)
     }
 
     return (
