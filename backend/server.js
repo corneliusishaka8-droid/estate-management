@@ -25,6 +25,7 @@ app.set("trust proxy", 1)
 app.use(cors({ origin: frontendUrl, credentials: true }))
 app.use(express.json())
 app.use(cookieParser())
+// Keep the browser session short-lived and inaccessible to client-side JavaScript.
 app.use(session({
     name: sessionCookieName,
     secret: process.env.SESSION_SECRET,
@@ -47,6 +48,7 @@ passport.deserializeUser((user, done) => done(null, user))
 const configuredStrategies = new Set()
 
 function registerStrategy(name, Strategy, options, verify) {
+    // A provider is enabled only when all of its credentials exist in the environment.
     if (Object.values(options).some((value) => !value)) return
     passport.use(name, new Strategy(options, verify))
     configuredStrategies.add(name)
@@ -96,6 +98,7 @@ function redirectToLogin(error) {
 app.get("/api/health", (request, response) => response.json({ ok: true }))
 
 app.get("/api/auth/me", (request, response) => {
+    // The frontend uses this endpoint to populate and protect the profile page.
     if (!request.user) return response.status(401).json({ authenticated: false })
     return response.json({ authenticated: true, user: request.user })
 })

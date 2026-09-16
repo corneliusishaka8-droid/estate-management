@@ -7,7 +7,10 @@ import Footer from "../componets/footer"
 import avatar from "../assets/KGJS0041.PNG"
 import "../componets/profile.css"
 
-function Profile() {
+function Profile({ user }) {
+    const profileName = user?.name || "Coco's Home member"
+    const profileEmail = user?.email || "Email not provided by provider"
+
     return (
         <div className="profile-page">
             <Head />
@@ -24,16 +27,16 @@ function Profile() {
                 <section className="profile-layout">
                     <aside className="account-card">
                         <div className="account-heading">
-                            <img src={avatar} alt="Esther Okafor" className="account-avatar" />
+                            <img src={user?.photo || avatar} alt={profileName} className="account-avatar" />
                             <div>
-                                <p className="profile-eyebrow">Member since 2024</p>
-                                <h2>Esther Okafor</h2>
-                                <p>Lagos, Nigeria</p>
+                                <p className="profile-eyebrow">Authenticated member</p>
+                                <h2>{profileName}</h2>
+                                <p>{user?.provider || "Coco's Home"}</p>
                             </div>
                         </div>
                         <div className="account-rule" />
                         <div className="account-details">
-                            <div><span>Email</span><strong>esther@example.com</strong></div>
+                            <div><span>Email</span><strong>{profileEmail}</strong></div>
                             <div><span>Phone</span><strong>+234 801 305 6233</strong></div>
                         </div>
                         <button className="outline-button" type="button"><EditOutlinedIcon className="action-icon" aria-hidden="true" /> Edit profile <ArrowForwardIcon className="action-icon" aria-hidden="true" /></button>

@@ -54,12 +54,13 @@ function PageMotion({ children }) {
             delay: 0.05
         })
 
+        // Login controls must remain available immediately while other pages reveal on scroll.
         const revealTargets = gsap.utils.toArray(
             "main > section, main > article, main > div, .heroiv > div, .heroprop1, .follow, footer, " +
             ".result-card, .discovery-card, .profile-stats > div, .about-values-list article, .details-list > div, " +
             ".contact-form-wrap, .login-card, .legal-sections > section",
             root
-        )
+        ).filter((item) => !item.closest(".login-page"))
 
         revealTargets.forEach((item, index) => {
             gsap.fromTo(item, { y: 42, opacity: 0 }, {
@@ -78,7 +79,7 @@ function PageMotion({ children }) {
         })
 
         gsap.utils.toArray("img, form, button, a", root)
-            .filter((element) => !element.closest(".navdiv, .legal-header"))
+            .filter((element) => !element.closest(".navdiv, .legal-header, .login-page"))
             .forEach((element) => {
             gsap.fromTo(element, { opacity: 0, y: 18 }, {
                 opacity: 1,
