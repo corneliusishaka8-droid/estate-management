@@ -103,24 +103,21 @@ app.get("/api/auth/me", (request, response) => {
     return response.json({ authenticated: true, user: request.user })
 })
 
-app.get("/auth/facebook", (request, response, next) => {
-    if (!requireStrategy("facebook", response)) return
-    passport.authenticate("facebook", { scope: ["email"] })(request, response, next)
-})
+function startOAuth(provider, options) {
+    return (request, response, next) => {
+        if (!requireStrategy(provider, response)) return
+        passport.authenticate(provider, options)(request, response, next)
+    }
+}
+
+// Keep the API prefix consistent with the frontend and retain the short legacy paths.
+app.get(["/api/auth/facebook", "/auth/facebook"], startOAuth("facebook", { scope: ["email"] }))
+app.get(["/api/auth/google", "/auth/google"], startOAuth("google", { scope: ["profile", "email"] }))
+app.get(["/api/auth/twitter", "/auth/twitter"], startOAuth("twitter"))
 
 app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRedirect: redirectToLogin("facebook") }), (request, response) => response.redirect(`${frontendUrl}/profile`))
 
-app.get("/auth/google", (request, response, next) => {
-    if (!requireStrategy("google", response)) return
-    passport.authenticate("google", { scope: ["profile", "email"] })(request, response, next)
-})
-
 app.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: redirectToLogin("google") }), (request, response) => response.redirect(`${frontendUrl}/profile`))
-
-app.get("/auth/twitter", (request, response, next) => {
-    if (!requireStrategy("twitter", response)) return
-    passport.authenticate("twitter")(request, response, next)
-})
 
 app.get("/auth/twitter/callback", passport.authenticate("twitter", { failureRedirect: redirectToLogin("twitter") }), (request, response) => response.redirect(`${frontendUrl}/profile`))
 

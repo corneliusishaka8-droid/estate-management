@@ -8,10 +8,10 @@ function Login() {
     const navigate = useNavigate()
     const location = useLocation()
     const [message] = useState(new URLSearchParams(location.search).get("error") ? "Sign in was not completed. Please try again." : "")
-    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000"
+    const apiUrl = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/$/, "")
 
     const startSignIn = (provider) => {
-        window.location.assign(`${apiUrl}/auth/${provider}`)
+        window.location.assign(`${apiUrl}/api/auth/${provider}`)
     }
 
     return (

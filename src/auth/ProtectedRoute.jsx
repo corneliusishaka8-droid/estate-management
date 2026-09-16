@@ -1,7 +1,7 @@
 import { cloneElement, useEffect, useState } from "react"
 import { Navigate, useLocation } from "react-router-dom"
 
-const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000"
+const apiUrl = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/$/, "")
 
 function ProtectedRoute({ children }) {
     const location = useLocation()

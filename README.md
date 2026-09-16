@@ -161,6 +161,8 @@ The backend dependency set includes:
 
 The backend listens on `http://localhost:5000` by default. The frontend calls `/api/auth/me` before rendering `/profile` and redirects unauthenticated visitors to `/login`.
 
+For a deployed frontend, set the Vercel environment variable `VITE_API_URL` to the public URL of the deployed backend, for example `https://api.example.com`. Do not set it to the Vercel frontend URL unless the backend is deployed there too; otherwise OAuth requests will be handled by the SPA rewrite and return a 404.
+
 ## Available scripts
 
 Run these commands from the frontend project root:
