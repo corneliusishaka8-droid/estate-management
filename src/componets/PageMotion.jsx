@@ -16,8 +16,9 @@ function PageMotion({ children }) {
         const root = scope.current
         if (!root) return
 
-        const scrollStart = "top 60%"
-        const scrollEnd = "top 50%"
+        const textScrollStart = "top 80%"
+        const revealScrollStart = "top 70%"
+        const scrollEnd = "top 55%"
         const splitTargets = gsap.utils.toArray("h1, h2, h3, p", root)
             .filter((element) => element.textContent.trim())
         const splits = splitTargets.map((element) => {
@@ -36,7 +37,7 @@ function PageMotion({ children }) {
                 overwrite: true,
                 scrollTrigger: {
                     trigger: element,
-                    start: scrollStart,
+                    start: textScrollStart,
                     end: scrollEnd,
                     toggleActions: "play none none reverse"
                 }
@@ -69,7 +70,7 @@ function PageMotion({ children }) {
                 ease: "power2.out",
                 scrollTrigger: {
                     trigger: item,
-                    start: scrollStart,
+                    start: revealScrollStart,
                     end: scrollEnd,
                     toggleActions: "play none none reverse"
                 }
@@ -86,7 +87,7 @@ function PageMotion({ children }) {
                 ease: "power2.out",
                 scrollTrigger: {
                     trigger: element,
-                    start: scrollStart,
+                    start: revealScrollStart,
                     end: scrollEnd,
                     toggleActions: "play none none reverse"
                 }

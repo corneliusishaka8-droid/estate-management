@@ -30,7 +30,8 @@ The frontend is built with React 19 and Vite. It uses React Router for navigatio
 - Contact form with required fields and an in-page success state after submission.
 - Direct email, telephone, and Google Maps links on the contact page.
 - Profile dashboard showing saved homes, viewing counts, active searches, and search preferences.
-- Login screen with Google, Facebook, and X placeholder actions.
+- Login screen with Google, Facebook, and X/Twitter OAuth actions.
+- Passport-based OAuth with HTTP-only session cookies and a protected profile route.
 - Privacy Policy and Terms of Service pages.
 - Shared footer and navigation across the main website pages.
 - GSAP word reveals, section reveals, and image/form/button/link animations on route changes and scroll.
@@ -134,16 +135,31 @@ Vite will print the local development URL, normally `http://localhost:5173`.
 
 Open the URL in a browser and use the navigation or the route table above to explore the site.
 
-### Install the backend package separately
+### Install and run the backend
 
-The backend has its own package manifest. If you need its dependencies for future API work:
+The backend has its own package manifest and now includes Passport OAuth strategies for the providers shown in the login UI, plus sessions, cookies, CORS, and environment-variable loading:
 
 ```bash
 cd backend
 npm install
+copy .env.example .env
+npm run dev
 ```
 
-There is currently no backend start script or server entry file in the repository.
+Fill in `.env` with the credentials from the provider dashboards before starting OAuth. Never commit `.env`; only `.env.example` belongs in source control.
+
+The backend dependency set includes:
+
+- `passport` for authentication middleware and session serialization.
+- `passport-facebook` for Facebook Login.
+- `passport-google-oauth20` for Google OAuth 2.0.
+- `passport-twitter` for X/Twitter OAuth 1.0a.
+- `express-session` for server-side sessions and the session cookie.
+- `cookie-parser` for reading and setting additional cookies when needed.
+- `cors` for allowing the Vite frontend to call the backend with credentials.
+- `dotenv` for loading backend environment variables.
+
+The backend listens on `http://localhost:5000` by default. The frontend calls `/api/auth/me` before rendering `/profile` and redirects unauthenticated visitors to `/login`.
 
 ## Available scripts
 
@@ -177,8 +193,8 @@ The current implementation is a client-side demo. It does not request listings f
 
 ## Application notes
 
-- The login buttons display a coming-soon message; no authentication provider is connected.
-- The profile content is currently static example account data.
+- OAuth requires provider credentials in `backend/.env`; without them, the provider endpoint returns a configuration error.
+- The profile route is protected by the backend session check, although the profile content itself is still example account data.
 - The contact form prevents the browser's default submission and displays a success state; it does not send data to a server or email service.
 - The featured property's save button is component state only and resets when the page is reloaded.
 - Several catalogue cards use placeholder links (`#`) while the featured catalogue action points to `/view`.
@@ -188,9 +204,26 @@ The current implementation is a client-side demo. It does not request listings f
 
 ## Backend status
 
-The `backend/` directory currently contains only a `package.json` with Express as a dependency. It does not yet contain an Express app, API routes, database connection, environment configuration, or a runnable `start` script.
+The `backend/` directory contains the Express server, Passport strategy setup, OAuth callback routes, session middleware, logout endpoint, health endpoint, and [`.env.example`](backend/.env.example) for authentication. It does not yet contain a database connection or persistent user/property models.
 
-When a backend is added, likely integration points include:
+### Environment variables
+
+Copy `backend/.env.example` to `backend/.env` and configure:
+
+| Variable group | Variables                                                                    | Purpose                                                |
+| -------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------ |
+| Runtime        | `NODE_ENV`, `PORT`, `FRONTEND_URL`                                           | Server mode, listen port, and allowed frontend origin. |
+| Sessions       | `SESSION_SECRET`, `SESSION_COOKIE_NAME`                                      | Signs the login session and names its cookie.          |
+| Cookie policy  | `SESSION_COOKIE_DOMAIN`, `SESSION_COOKIE_SECURE`, `SESSION_COOKIE_SAME_SITE` | Controls where and when the session cookie is sent.    |
+| Facebook       | `FACEBOOK_CLIENT_ID`, `FACEBOOK_CLIENT_SECRET`, `FACEBOOK_CALLBACK_URL`      | Facebook OAuth credentials and callback.               |
+| Google         | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_CALLBACK_URL`            | Google OAuth credentials and callback.                 |
+| X/Twitter      | `TWITTER_CONSUMER_KEY`, `TWITTER_CONSUMER_SECRET`, `TWITTER_CALLBACK_URL`    | X/Twitter OAuth 1.0a credentials and callback.         |
+
+For local development, the example uses `http://localhost:5000` for the backend and `http://localhost:5173` for Vite. Register those exact callback URLs in each provider dashboard. In production, use HTTPS and set `SESSION_COOKIE_SECURE=true`.
+
+The session cookie is HTTP-only, uses the configured SameSite policy, and expires after 24 hours. A production deployment should use a shared session store instead of Express's in-memory session store.
+
+Future backend integration points include:
 
 - Property listing and search endpoints.
 - Account creation and authentication.

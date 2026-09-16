@@ -10,6 +10,7 @@ import Legal from "./pages/legal.jsx"
 import Profile from './pages/profile.jsx'
 import Search from './pages/search.jsx'
 import PageMotion from './componets/PageMotion.jsx'
+import ProtectedRoute from './auth/ProtectedRoute.jsx'
 function App(){
     return(
                 <PageMotion>
@@ -21,7 +22,7 @@ function App(){
             <Route path='/login' element={<Login />} />
             <Route path='/privacy' element={<Legal />} />
             <Route path='/terms' element={<Legal />} />
-              <Route path='/profile' element={<Profile />} />
+              <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path='/search' element={<Search />} />
             <Route path='/view' element={<View />} />
                     </Routes>

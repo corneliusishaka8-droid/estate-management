@@ -26,6 +26,30 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+body {
+    min-width: 320px;
+    overscroll-behavior-y: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+.route-loading {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    color: #0b1b4d;
+    font-size: 1rem;
+}
+
 .motion-word{
     display: inline-block;
     clip-path: inset(0 0 0 0);

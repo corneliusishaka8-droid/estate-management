@@ -1,15 +1,17 @@
 
 import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import "./login.css"
 
 function Login() {
     const navigate = useNavigate()
-    const [message, setMessage] = useState("")
+    const location = useLocation()
+    const [message] = useState(new URLSearchParams(location.search).get("error") ? "Sign in was not completed. Please try again." : "")
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000"
 
-    const showComingSoon = (provider) => {
-        setMessage(`${provider} sign in will be available soon.`)
+    const startSignIn = (provider) => {
+        window.location.assign(`${apiUrl}/auth/${provider}`)
     }
 
     return (
@@ -43,16 +45,16 @@ function Login() {
                     </div>
 
                     <div className="social-options">
-                        <button className="social-button social-google" type="button" onClick={() => showComingSoon("Google")}>
+                        <button className="social-button social-google" type="button" onClick={() => startSignIn("google")}>
                             <span className="social-icon">G</span>
                             Continue with Google
                         </button>
                         <div className="divider"><span>or continue with</span></div>
                         <div className="secondary-options">
-                            <button className="social-button compact" type="button" onClick={() => showComingSoon("Facebook")}>
+                            <button className="social-button compact" type="button" onClick={() => startSignIn("facebook")}>
                                 <span className="social-icon">f</span> Facebook
                             </button>
-                            <button className="social-button compact" type="button" onClick={() => showComingSoon("X")}>
+                            <button className="social-button compact" type="button" onClick={() => startSignIn("twitter")}>
                                 <span className="social-icon">&#120143;</span> X
                             </button>
                         </div>
