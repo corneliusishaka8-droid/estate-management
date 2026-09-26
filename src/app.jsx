@@ -22,7 +22,7 @@ function App(){
             <Route path='/login' element={<Login />} />
             <Route path='/privacy' element={<Legal />} />
             <Route path='/terms' element={<Legal />} />
-              <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path='/search' element={<Search />} />
             <Route path='/view' element={<View />} />
                     </Routes>
